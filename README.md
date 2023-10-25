@@ -1,15 +1,12 @@
-
 <p align="center">
-
       <img src="https://raw.githubusercontent.com/demjhonsilver/motionrack/main/img/logo.png" alt="Logo" width="70" height="70"/>
-
 </p>
 
 <div align="center">
 
 Motionrack
 --------
-[![npm version](https://img.shields.io/npm/v/motionrack.svg?logo=npm&style=flat-square&label=Alpha&color=blue)](https://www.npmjs.com/package/motionrack)
+[![npm version](https://img.shields.io/npm/v/motionrack.svg?logo=npm&style=flat-square&label=Stable&color=blue)](https://www.npmjs.com/package/motionrack)
 ![Downloads](https://img.shields.io/npm/dt/motionrack.svg?&style=flat-square&label=Downloads&color=orange)
 [![License](https://img.shields.io/npm/l/motionrack.svg?style=flat-square&label=License&color=green)](https://github.com/demjhonsilver/motionrack/blob/main/LICENSE.md)
 </div>
@@ -20,6 +17,7 @@ Motionrack
 
 - [Description](#description)
 - [Release Notes](#release-notes)
+- [Sample](#sample)
 - [Features](#features)
 - [Installation](#installation)
 - [Example](#example)
@@ -31,7 +29,7 @@ Motionrack
 Motionrack is a lightweight JavaScript library designed to simplify web page scrolling by animating elements as they come into view. When elements enter the viewport, making it easy to create engaging and interactive web experiences without the need for complex event handling, mousewheel or extensive JavaScript code.
 
 ## Release-notes
-Version 0.1.0
+Version 0.1.1
 
 -------
 
@@ -42,8 +40,13 @@ Minor Changes:
 - Docs
 
 Patch changes:
+- Fixed the readme docs
 
+## Sample
+------
+Sample website that used Motionrack
 
+[energize-coffee-house](https://energize-coffee-house.vercel.app)
 
 
 ## Features
@@ -59,15 +62,13 @@ animations | usage  |  supported tags
 `motionRight` | data-motionrack="motionRight"| img, class, p, header, etc.  | 
 
 ---------
+```html
+zoomIn, motionUp, motionDown, motionLeft, motionRight
+fadeIn, flipUp, flipDown, flipLeft, flipRight
+flash, bounceUp| bounceDown, minSpinLeft, minSpinRight
+flare, flicker, motionBounce, maxSpinLeft, maxSpinRight
+```
 
-- Animations
-
- * | *  | *  | *  | *  |
------- | -------- | -------- | -------- | ------------
-zoomIn | motionUp |  motionDown  | motionLeft | motionRight
-fadeIn |flipUp |  flipDown  | flipLeft | flipRight
-flash |  bounceUp| bounceDown | minSpinLeft | minSpinRight |
-flare | flicker| motionBounce |  maxSpinLeft  | maxSpinRight |
 ------------------
 
 Optional layouts
@@ -99,7 +100,11 @@ npm install motionrack
 ## Example
 React
 -------------
-Direct method: `applicable for custom CSS, Bootstrap, Tailwind and Bulma`
+Direct method: 
+-------------
+
+`applicable for custom CSS, Bootstrap, Tailwind and Bulma`
+
 -----------
 
 - Bootstrap
