@@ -24,6 +24,8 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE. */
 
+  import './animation.js';
+
   const animatedElements = new Set();
 
   function resetAnimations() {
@@ -36,15 +38,41 @@
   }
   
   export function motionRack() {
-    const motionElements = document.querySelectorAll('[data-motionrack]');
+    const motionElementHold = document.querySelectorAll('[data-motionrack-once]');
   
-    const options = {
+    const optionHold = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.5,
+      threshold: .90,
     };
   
-    if (motionElements.length > 0) {
+    if (motionElementHold.length > 0) {
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const motionData = entry.target.getAttribute('data-motionrack-once').split(' ');
+            const animationName = motionData[0];
+            const animationDuration = motionData[1] || '2.5s';
+            entry.target.style.animation = `${animationName} ${animationDuration} forwards`;
+            observer.unobserve(entry.target);
+          }
+        });
+      }, optionHold);
+  
+      motionElementHold.forEach(element => {
+        observer.observe(element);
+      });
+    }
+  
+    const motionElementRelease = document.querySelectorAll('[data-motionrack]');
+  
+    const optionRelease = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.8,
+    };
+  
+    if (motionElementRelease.length > 0) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -65,9 +93,9 @@
             animatedElements.delete(entry.target);
           }
         });
-      }, options);
+      }, optionRelease);
   
-      motionElements.forEach((element) => {
+      motionElementRelease.forEach((element) => {
         observer.observe(element);
       });
   
@@ -80,9 +108,9 @@
             entry.target.offsetHeight; // Trigger a reflow
           }
         });
-      }, options);
+      }, optionRelease);
   
-      motionElements.forEach((element) => {
+      motionElementRelease.forEach((element) => {
         resetObserver.observe(element);
       });
   
@@ -94,10 +122,12 @@
     }
   }
   
-  
-  const motionStyler = document.createElement('style');
-  document.head.appendChild(motionStyler);
-  const motionSheet = `
+
+
+
+  const motionStylerLayout = document.createElement('style');
+  document.head.appendChild(motionStylerLayout);
+  const motionSheetLayout = `
   
   .mr-wrap {
     display: flex;
@@ -172,448 +202,182 @@
     display: none;
   }
   
-  
-  
-  @keyframes motionUp {
-    from {
-        transform: translateY(100px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-  }
-  
-  @keyframes motionLeft {
-    from {
-        transform: translateX(-100px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-  }
-  
-  @keyframes motionRight {
-    from {
-        transform: translateX(100px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-  }
-  
-  
-  @keyframes motionDown {
-    from {
-        transform: translateY(-100px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-  }
-  
-  @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-  }
-  
-  
-  @keyframes zoomIn {
-    from {
-        transform: scale(0);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-  }
-  
-  
-  @keyframes maxSpinLeft {
-    from {
-        transform: rotate(0);
-        opacity: 0;
-    }
-    to {
-        transform: rotate(-360deg);
-        opacity: 1;
-    }
-  }
-  
-  
-  
-  @keyframes maxSpinRight {
-    from {
-        transform: rotate(0);
-        opacity: 0;
-    }
-    to {
-        transform: rotate(360deg);
-        opacity: 1;
-    }
-  }
-  
-  @keyframes minSpinLeft {
-    from {
-        transform: rotate(90deg);
-        opacity: 0;
-    }
-    to {
-        transform: rotate(0);
-        opacity: 1;
-    }
-  }
-  
-  
-  @keyframes minSpinRight {
-    from {
-        transform: rotate(-90deg);
-        opacity: 0;
-    }
-    to {
-        transform: rotate(0);
-        opacity: 1;
-    }
-  }
-  
-  @keyframes flipUp {
-    from {
-        transform: perspective(400px) rotateX(-90deg);
-        opacity: 0;
-    }
-    to {
-        transform: perspective(400px) rotateX(0);
-        opacity: 1;
-    }
-  }
-  
-  @keyframes flipDown {
-    from {
-        transform: perspective(400px) rotateX(90deg);
-        opacity: 0;
-    }
-    to {
-        transform: perspective(400px) rotateX(0);
-        opacity: 1;
-    }
-  }
-  
-  
-  
-  @keyframes flipLeft {
-    from {
-        transform: perspective(400px) rotateY(90deg);
-        opacity: 0;
-    }
-    to {
-        transform: perspective(400px) rotateY(0);
-        opacity: 1;
-    }
-  }
-  
-  @keyframes flipRight {
-    from {
-        transform: perspective(400px) rotateY(-90deg);
-        opacity: 0;
-    }
-    to {
-        transform: perspective(400px) rotateY(0);
-        opacity: 1;
-    }
-  }
-  
-  
-  
-  @keyframes flash {
-    0%, 50%, 100% {
-        opacity: 1;
-    }
-    25%, 75% {
-        opacity: 0;
-    }
-  }
-  
-  
-  
-  @keyframes motionBounce {
-    from {
-        transform: scale(0.5);
-        opacity: 0;
-    }
-    25% {
-        transform: scale(1.1);
-    }
-    50% {
-        transform: scale(0.9);
-    }
-    75% {
-        transform: scale(1.05);
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-  }
-  
-  
-  
-  
-  @keyframes bounceUp {
-    0% {
-        transform: translateY(100px);
-        opacity: 0;
-    }
-    70% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    85% {
-        transform: translateY(-20px);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-  }
-  
-  
-  
-  
-  
-  @keyframes bounceDown {
-    0% {
-        transform: translateY(-100px);
-        opacity: 0;
-    }
-    10% {
-        transform: translateY(-100px);
-        opacity: 0;
-    }
-    25% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    40% {
-        transform: translateY(20px);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-  }
-  
-  
-  @keyframes flicker {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.4;
-    }
-  }
-  
-  
-  @keyframes flare {
-    0%, 70% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  
-  
-  
-  
   `;
-  motionStyler.appendChild(document.createTextNode(motionSheet));
-  
-  const  motionRQuery = document.createElement('style');
-  document.head.appendChild(motionRQuery);
-  const rackMQuery = `
-  @media (max-width: 1060px) {
-    .monoPad {
-        width: 100%;
-    }
-    .monoBox {
-        width:940px;
-    }
-    .duoPad {
-        width: 100%;
-    }
-    .duoBox {
-        width: 460px; 
-    }
-    .trioPad {
-        width: 100%;
-    }
-    .trioBox {
-        width: 300px; 
-    }
+  motionStylerLayout.appendChild(document.createTextNode(motionSheetLayout));
+
+
+
+
+
+
+const  motionRQuery = document.createElement('style');
+document.head.appendChild(motionRQuery);
+const rackMQuery = `
+@media (max-width: 1060px) {
+  .monoPad {
+      width: 100%;
   }
-  `;
-  
-  motionRQuery.appendChild(document.createTextNode(rackMQuery));
-  
-  const  motionRQuery2 = document.createElement('style');
-  document.head.appendChild(motionRQuery2);
-  const rackMQuery2 = `
-  @media (max-width: 740px) {
-  
-    .duoPad{
-        flex-direction: column; 
-        align-items: center;
-    }
-    .duoBox {
-        max-width: 350px;
-        width: 100%;
-        display: flex;
-        justify-content: center; 
-        align-items: center; 
-    }
-    .trioPad {
-        width: 100%;
-    }
-    .trioBox {
-        width:940px;
-    }
+  .monoBox {
+      width:940px;
   }
-  `;
-  
-  motionRQuery2.appendChild(document.createTextNode(rackMQuery2));
-  
-  
-  const  motionRQuery3= document.createElement('style');
-  document.head.appendChild(motionRQuery3);
-  const rackMQuery3 = `
-  @media (max-width: 630px) {
-    .monoPad {
-        flex-direction: column; 
-        align-items: center; 
-    }
-    .monoBox {
-        max-width: 350px;
-        margin: 5px;
-        width: 100%; 
-        display: flex;
-        justify-content: center; 
-        align-items: center; 
-    }
-    .duoPad {
-        flex-direction: column; 
-        align-items: center; 
-  
-    }
-    .duoBox {
-        max-width: 350px;
-        margin: 5px;
-        width: 100%; 
-        display: flex;
-        justify-content: center; 
-        align-items: center; 
-    }
-    .trioPad {
-        flex-direction: column; 
-        align-items: center; 
-    }
-    .trioBox {
-        max-width: 350px;
-        width: 100%;
-        display: flex;
-        justify-content: center; 
-        align-items: center; 
-    }
+  .duoPad {
+      width: 100%;
   }
-  `;
-  motionRQuery3.appendChild(document.createTextNode(rackMQuery3));
-  
-  const  motionRQuery4= document.createElement('style');
-  document.head.appendChild(motionRQuery4);
-  const rackMQuery4 = `
-  @media (max-width: 400px) {
-    .monoPad {
-        flex-direction: column; 
-        align-items: center; 
-    }
-    .monoBox {
-        max-width: 300px;
-        margin: 5px;
-        width: 100%; 
-        display: flex;
-        justify-content: center; 
-        align-items: center;
-    }
-    .duoPad {
-        flex-direction: column; 
-        align-items: center; 
-  
-    }
-    .duoBox {
-        max-width: 300px;
-        margin: 5px;
-        width: 100%; 
-        display: flex;
-        justify-content: center;
-        align-items: center; 
-    }
-    .trioPad {
-        flex-direction: column; 
-        align-items: center; 
-    }
-    .trioBox {
-        max-width: 300px;
-        margin: 5px;
-        width: 100%;
-        display: flex;
-        justify-content: center; 
-        align-items: center; 
-    }
-  
+  .duoBox {
+      width: 460px; 
   }
-  `;
+  .trioPad {
+      width: 100%;
+  }
+  .trioBox {
+      width: 300px; 
+  }
+}
+`;
+
+motionRQuery.appendChild(document.createTextNode(rackMQuery));
+
+const  motionRQuery2 = document.createElement('style');
+document.head.appendChild(motionRQuery2);
+const rackMQuery2 = `
+@media (max-width: 740px) {
+
+  .duoPad{
+      flex-direction: column; 
+      align-items: center;
+  }
+  .duoBox {
+      max-width: 350px;
+      width: 100%;
+      display: flex;
+      justify-content: center; 
+      align-items: center; 
+  }
+  .trioPad {
+      width: 100%;
+  }
+  .trioBox {
+      width:940px;
+  }
+}
+`;
+
+motionRQuery2.appendChild(document.createTextNode(rackMQuery2));
+
+
+const  motionRQuery3= document.createElement('style');
+document.head.appendChild(motionRQuery3);
+const rackMQuery3 = `
+@media (max-width: 630px) {
+  .monoPad {
+      flex-direction: column; 
+      align-items: center; 
+  }
+  .monoBox {
+      max-width: 350px;
+      margin: 5px;
+      width: 100%; 
+      display: flex;
+      justify-content: center; 
+      align-items: center; 
+  }
+  .duoPad {
+      flex-direction: column; 
+      align-items: center; 
+
+  }
+  .duoBox {
+      max-width: 350px;
+      margin: 5px;
+      width: 100%; 
+      display: flex;
+      justify-content: center; 
+      align-items: center; 
+  }
+  .trioPad {
+      flex-direction: column; 
+      align-items: center; 
+  }
+  .trioBox {
+      max-width: 350px;
+      width: 100%;
+      display: flex;
+      justify-content: center; 
+      align-items: center; 
+  }
+}
+`;
+motionRQuery3.appendChild(document.createTextNode(rackMQuery3));
+
+const  motionRQuery4= document.createElement('style');
+document.head.appendChild(motionRQuery4);
+const rackMQuery4 = `
+@media (max-width: 400px) {
+  .monoPad {
+      flex-direction: column; 
+      align-items: center; 
+  }
+  .monoBox {
+      max-width: 300px;
+      margin: 5px;
+      width: 100%; 
+      display: flex;
+      justify-content: center; 
+      align-items: center;
+  }
+  .duoPad {
+      flex-direction: column; 
+      align-items: center; 
+
+  }
+  .duoBox {
+      max-width: 300px;
+      margin: 5px;
+      width: 100%; 
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+  }
+  .trioPad {
+      flex-direction: column; 
+      align-items: center; 
+  }
+  .trioBox {
+      max-width: 300px;
+      margin: 5px;
+      width: 100%;
+      display: flex;
+      justify-content: center; 
+      align-items: center; 
+  }
+
+}
+`;
+
+motionRQuery4.appendChild(document.createTextNode(rackMQuery4));
+
+  /* # Motionrack core license
   
-  motionRQuery4.appendChild(document.createTextNode(rackMQuery4));
+  Motionrack is released under the MIT license:
   
-    /* # Motionrack core license
-    
-    Motionrack is released under the MIT license:
-    
-    MIT License
-    
-    Copyright (c) [2023-present] [Demjhon Silver]
-    
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-    
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-    
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE. */
+  MIT License
   
+  Copyright (c) [2023-present] [Demjhon Silver]
+  
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+  
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE. */
