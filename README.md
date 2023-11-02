@@ -31,7 +31,7 @@ Motionrack
 
 ## Description
 
-Motionrack is a free and open source JavaScript library for React, Vue, Angular and Svelte about web page scrolling by animating elements as they come into view. When elements enter the viewport, making it easy to create engaging and interactive web experiences.
+Motionrack is a free and open source JavaScript library animated web page scrolling in React, Vue, Angular, and Svelte. When elements enter the viewport, making it easy to create engaging and interactive web experiences.
 
 
 
@@ -49,7 +49,7 @@ Frameworks / Libraries | Tested versions
 
 
 ## Release-notes
-Version 1.0.0
+Version 1.0.1
 
 -------
 
@@ -63,6 +63,11 @@ Minor Changes:
 - zoomIn renamed into expand
 
 Patch changes:
+
+1.0.1
+- Added 5 new animations: `pump`, `slopeUpLeft`, `slopeUpRight`, `slopeDownLeft`, and `slopeDownRight`.
+
+1.0.0
 - Add docs for speed
 
 ## Installation
@@ -113,6 +118,7 @@ expand, motionUp, motionDown, motionLeft, motionRight
 fadeIn, flipUp, flipDown, flipLeft, flipRight
 flash, bounceUp, bounceDown, minSpinLeft, minSpinRight
 flare, flicker, motionBounce, maxSpinLeft, maxSpinRight
+pump, slopeUpLeft, slopeUpRight, slopeDownLeft, slopeDownRight
 ```
 
 ------------------

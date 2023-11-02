@@ -14,6 +14,7 @@ const motionSheet = `
   }
 }
 
+
 @keyframes motionLeft {
   from {
       transform: translateX(-100px);
@@ -267,6 +268,78 @@ const motionSheet = `
     opacity: 1;
   }
 }
+
+
+
+
+
+
+
+
+
+@keyframes slopeUpLeft {
+  0% {
+    transform: translate(-50px, -50px); 
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0); 
+    opacity: 1;
+  }
+}
+
+
+@keyframes slopeUpRight {
+  0% {
+    transform: translate(50px, -50px); 
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0); 
+    opacity: 1;
+  }
+}
+
+@keyframes slopeDownLeft {
+  0% {
+    transform: translate(-50px, 50px); 
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0); 
+    opacity: 1;
+  }
+}
+
+
+@keyframes slopeDownRight {
+  0% {
+    transform: translate(50px, 50px); 
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+
+@keyframes pump {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  25%, 75% {
+    transform: translateY(-20px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
 
 
 

@@ -1,7 +1,7 @@
 {
   "name": "motionrack",
-  "version": "1.0.0",
-  "description": "A free and open source JavaScript library for React, Vue, Angular and Svelte about web page scrolling by animating elements as they come into view.",
+  "version": "1.0.1",
+  "description": "A free and open source JavaScript library animated web page scrolling in React, Vue, Angular, and Svelte.",
   "main": "index.js",
   "types": "types/index.d.ts",
   "scripts": {

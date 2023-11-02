@@ -43,7 +43,7 @@
     const optionHold = {
       root: null,
       rootMargin: '0px',
-      threshold: .90,
+      threshold: .10,
     };
   
     if (motionElementHold.length > 0) {
@@ -69,7 +69,7 @@
     const optionRelease = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.8,
+      threshold: 0.10,
     };
   
     if (motionElementRelease.length > 0) {
